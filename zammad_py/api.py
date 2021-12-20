@@ -94,6 +94,12 @@ class ZammadAPI(object):
         return Ticket(connection=self)
 
     @property
+    def tags(self):
+        """Return a 'Tags` instance
+        """
+        return Tags(connection=self)
+
+    @property
     def ticket_article(self):
         """Return a `TicketArticle` instance
         """
@@ -295,6 +301,49 @@ class Ticket(Resource):
         response = self._connection.session.get(
             self._connection.url +
             'ticket_articles/by_ticket/%s?expand=true' % id
+        )
+        return self._raise_or_return_json(response)
+
+class Tags(Resource):
+
+    path_attribute = 'tags'
+
+    def get(self, id):
+        """Returns all the tags associated with the ticket id
+
+        :param id: Ticket id
+        """
+        response = self._connection.session.get(
+            self._connection.url +
+            'tags?object=Ticket&o_id=%s' % id
+        )
+        return self._raise_or_return_json(response)
+
+    def add(self, id, tag_name):
+        """Returns all the tags associated with the ticket id
+
+        :param id: Ticket id
+        """
+        tags_post = {'item': '{}'.format(tag_name),
+                    'object': 'Ticket',
+                    'o_id': '{}'.format(id)}
+        response = self._connection.session.post(
+            self._connection.url +
+            'tags/add', data = tags_post
+        )
+        return self._raise_or_return_json(response)
+
+    def remove(self, id, tag_name):
+        """Returns all the tags associated with the ticket id
+
+        :param id: Ticket id
+        """
+        tags_delete = {'item': '{}'.format(tag_name),
+                    'object': 'Ticket',
+                    'o_id': '{}'.format(id)}
+        response = self._connection.session.delete(
+            self._connection.url +
+            'tags/remove', data = tags_delete
         )
         return self._raise_or_return_json(response)
 
