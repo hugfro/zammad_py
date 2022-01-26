@@ -12,7 +12,9 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-    'requests'
+    # Remove any dependency installed by pip.
+    # The package dependecies will be installed and maintained with apt
+    #'requests'
 ]
 
 setup_requirements = [
