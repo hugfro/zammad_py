@@ -7,7 +7,7 @@ from contextlib import contextmanager
 import requests
 from requests.exceptions import HTTPError
 
-from zammad_py.exceptions import ConfigException
+from zammad_py.zammad_py.exceptions import ConfigException
 
 
 __all__ = ['ZammadAPI']
